@@ -1,4 +1,4 @@
-import { writeFile, access, constants } from 'node:fs/promises';
+import { writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -7,22 +7,13 @@ const __dirname = dirname(__filename);
 const path = resolve(__dirname, 'files', 'fresh.txt');
 
 const create = async () => {
-  /**
-   * @type {boolean}
-   */
-  let isExist = false;
-
   try {
-    await access(path, constants.F_OK);
-    isExist = true;
-
-    throw new Error('FS operation failed');
+    await writeFile(path, 'I am fresh and young', { flag: 'wx' });
   } catch (err) {
-    if (!isExist) {
-      await writeFile(path, 'I am fresh and young');
-      return;
-    }
-    console.log('Error:', err.message);
+    if (err.code === 'EEXIST') {
+      err.message = 'FS operation failed';
+      console.log('Error:', err.message);
+    } else throw err;
   }
 };
 
