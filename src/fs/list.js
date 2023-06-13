@@ -1,4 +1,3 @@
-import { existsSync } from 'node:fs';
 import { readdir } from 'node:fs/promises';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
@@ -9,16 +8,14 @@ const path = resolve(__dirname, 'files');
 
 const list = async () => {
   try {
-    const isFolderExist = existsSync(path);
-
-    if (!isFolderExist) {
-      throw new Error('FS operation failed');
-    }
-
     const array = await readdir(path);
+
     console.log(array);
   } catch (err) {
-    console.log('Error:', err.message);
+    if (err.syscall === 'scandir') {
+      err.message = 'FS operation failed';
+      console.log('Error:', err.message);
+    } else throw err;
   }
 };
 
