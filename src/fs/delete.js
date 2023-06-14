@@ -13,8 +13,7 @@ const remove = async () => {
     await rm(deleteFilePath);
   } catch (err) {
     if (err.syscall === 'lstat') {
-      err.message = 'FS operation failed';
-      console.log('Error:', err.message);
+      throw new Error('FS operation failed');
     } else throw err;
   }
 };

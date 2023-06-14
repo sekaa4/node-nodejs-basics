@@ -14,8 +14,7 @@ const read = async () => {
     console.log(contents);
   } catch (err) {
     if (err.syscall === 'open') {
-      err.message = 'FS operation failed';
-      console.log('Error:', err.message);
+      throw new Error('FS operation failed');
     } else throw err;
   }
 };

@@ -13,8 +13,7 @@ const list = async () => {
     console.log(array);
   } catch (err) {
     if (err.syscall === 'scandir') {
-      err.message = 'FS operation failed';
-      console.log('Error:', err.message);
+      throw new Error('FS operation failed');
     } else throw err;
   }
 };

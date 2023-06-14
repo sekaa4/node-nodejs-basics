@@ -11,8 +11,7 @@ const create = async () => {
     await writeFile(path, 'I am fresh and young', { flag: 'wx' });
   } catch (err) {
     if (err.code === 'EEXIST') {
-      err.message = 'FS operation failed';
-      console.log('Error:', err.message);
+      throw new Error('FS operation failed');
     } else throw err;
   }
 };
