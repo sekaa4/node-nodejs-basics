@@ -4,7 +4,7 @@ const transform = async () => {
   const { stdin, stdout } = process;
   const transform = new Transform({
     transform(chunk, encoding, callback) {
-      this.push(chunk.toString().split('').reverse().join('') + '\n');
+      this.push(chunk.toString().split('').reverse().join(''));
       callback();
     }
   });
