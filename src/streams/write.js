@@ -7,7 +7,7 @@ const filePath = resolve(__dirname, './files/fileToWrite.txt');
 
 const write = async () => {
   const { stdin } = process;
-  const output = createWriteStream(filePath);
+  const output = createWriteStream(filePath, { flags: 'a' });
 
   stdin.on('data', (chunk) => {
     output.write(chunk);
